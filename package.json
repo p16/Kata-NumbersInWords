@@ -1,0 +1,15 @@
+{
+  "name": "numbersinwords",
+  "version": "1.0.0",
+  "description": "Kata NumbersInWords",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Filippo De Santis <filippo.desantis@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
+  }
+}
