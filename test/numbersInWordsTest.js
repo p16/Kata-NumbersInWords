@@ -45,4 +45,10 @@ describe('NumbersInWords', function() {
     expect(numbersInWords(2000000)).to.equal('two million');
     done();
   });
+
+  it('it should return the right word between 1000000000 and 9999999999', function(done) {
+    expect(numbersInWords(1000000000)).to.equal('one billion');
+    expect(numbersInWords(9999999999)).to.equal('nine billion nine hundred ninety nine million nine hundred ninety nine thousand nine hundred ninety nine');
+     done();
+  });
 })

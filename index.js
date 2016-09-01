@@ -1,5 +1,14 @@
 'use strict';
 
+Array.prototype.chunk = function chunk(chunkLength) {
+  var newArr = [];
+  for(var i = 0; i < this.length; i = i + chunkLength) {
+    newArr.push(this.slice(i, i + 3));
+  }
+
+  return newArr;
+}
+
 function numbersInWords(numbers) {
   if (numbers === 0) {
     return 'zero';
@@ -9,28 +18,26 @@ function numbersInWords(numbers) {
     return getTens(numbers);
   }
 
-  var result = '';
-  var numberAsArray = numbers.toString().split('').map(function(v) {
-    return parseInt(v);
-  }).reverse();
+  return numbers.toString().split('').map(function(v) {
+      return parseInt(v);
+    })
+    .reverse()
+    .chunk(3)
+    .reduce(function(result, values, index) {
+      var label = getLabel(index * 3);
+      if (values.reduce((r, a) => r+a, 0) === 0) {
+        return result;
+      }
 
-  for(var i = 0; i < numberAsArray.length; i = i + 3) {
-    var actuals = numberAsArray.slice(i, i + 3);
-    var label = getLabel(i);
+      result = `${getTens(parseInt(values.slice(0, 2).reverse().join('')))} ${label} ` + result;
 
-    if (actuals.reduce((r, a) => r+a, 0) === 0) {
-      continue;
-    }
+      if (values[2]) {
+        result = `${basicMapping[values[2].toString()]} hundred ` + result;
+      }
 
-    if (actuals[2]) {
-      result = `${basicMapping[actuals[2].toString()]} hundred ${getTens(parseInt(actuals.slice(0, 2).reverse().join('')))} ${label} ` + result;
-      continue;
-    }
-
-    result = `${getTens(parseInt(actuals.slice(0, 2).reverse().join('')))} ${label} ` + result;
-  }
-
-  return result.trim();
+      return result;
+    }, '')
+    .trim();
 }
 
 function getLabel(numberOfDigits) {
